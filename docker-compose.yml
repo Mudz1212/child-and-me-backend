@@ -1,0 +1,25 @@
+services:
+  child-and-me-db:
+    image: mudz1212/child-and-me-db-cloud:latest
+    build:
+      context: ./db
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - child-and-me-network
+
+  child-and-me-server:
+    image: mudz1212/child-and-me-server-cloud:latest
+    build:
+      context: ./server
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - child-and-me-db
+    networks:
+      - child-and-me-network
+
+networks:
+  child-and-me-network:
