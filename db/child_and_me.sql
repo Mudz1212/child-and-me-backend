@@ -82,7 +82,7 @@ CREATE TABLE venue_amendments (
     venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
     submitted_by INT REFERENCES users(id) ON DELETE SET NULL,
     changes TEXT NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'pending'
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
