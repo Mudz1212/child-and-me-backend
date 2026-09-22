@@ -1,4 +1,3 @@
-#cloud-config
 package_update: true
 packages:
   - ca-certificates
@@ -22,11 +21,16 @@ write_files:
         child-and-me-db:
           image: mudz1212/child-and-me-db-cloud:latest
           restart: always
+          volumes:
+            - child-and-me-db-data:/var/lib/postgresql/data
           networks:
             - child-and-me-network
 
       networks:
         child-and-me-network:
+
+      volumes:
+        child-and-me-db-data:
 
 runcmd:
   - install -m 0755 -d /etc/apt/keyrings
