@@ -8,3 +8,4 @@ node_modules/
 *.tfvars
 *.tfplan
 credentials.md
+package-lock.json
