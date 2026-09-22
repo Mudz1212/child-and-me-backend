@@ -27,7 +27,7 @@ resource "azurerm_linux_virtual_machine" "http_server" {
   name                  = "http-server"
   resource_group_name   = azurerm_resource_group.vm_resource_group.name
   location              = azurerm_resource_group.vm_resource_group.location
-  size                  = "Standard_B2s"
+  size                  = "Standard_B1s"
   admin_username        = "azureuser"
   network_interface_ids = [azurerm_network_interface.http_server_nic.id]
   custom_data           = base64encode(file("${path.module}/cloud-init.yaml"))
