@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS reviews, venue_amenities, amenities, venues, users CASCADE;
+DROP TABLE IF EXISTS reviews, venue_amenities, amenities, venues, users, search_events, search_event_amenities, partnerships, venue_amendments, venue_views CASCADE;
 
 CREATE TABLE users (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -10,6 +10,12 @@ CREATE TABLE users (
 
 CREATE TABLE venues (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  geoapify_place_id VARCHAR(255) UNIQUE,
+  category VARCHAR(255),
+  address VARCHAR(255),
+  borough VARCHAR(255),
+  website VARCHAR(255),
+  opening_hours VARCHAR(255),
   name VARCHAR(255) NOT NULL,
   description TEXT,
   latitude DECIMAL(9,6) NOT NULL,
@@ -31,6 +37,23 @@ CREATE TABLE venue_amenities (
   PRIMARY KEY (venue_id, amenity_id)
 );
 
+CREATE TABLE search_events (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE SET NULL,
+    latitude DECIMAL(9,6),
+    longitude DECIMAL(9,6),
+    radius INT CHECK (radius > 0),
+    category VARCHAR(255),
+    result_count INT CHECK (result_count >= 0),
+    searched_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE TABLE search_event_amenities (
+    search_event_id INT NOT NULL REFERENCES search_events(id) ON DELETE CASCADE,
+    amenity_id INT NOT NULL REFERENCES amenities(id) ON DELETE CASCADE,
+    PRIMARY KEY (search_event_id, amenity_id)
+);
+
 CREATE TABLE reviews (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
@@ -38,6 +61,37 @@ CREATE TABLE reviews (
   rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   comment TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE TABLE partnerships (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
+    sponsored BOOLEAN NOT NULL DEFAULT FALSE,
+    start_date DATE,
+    end_date DATE,
+    CHECK (
+        end_date IS NULL
+        OR start_date IS NULL
+        OR end_date >= start_date
+    )
+);
+
+
+CREATE TABLE venue_amendments (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
+    submitted_by INT REFERENCES users(id) ON DELETE SET NULL,
+    changes TEXT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+
+CREATE TABLE venue_views (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
+    user_id INT REFERENCES users(id) ON DELETE SET NULL,
+    viewed_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 INSERT INTO amenities (name) VALUES

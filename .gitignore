@@ -15,3 +15,4 @@ tfplan.txt
 .terraform.lock.hcl
 
 credentials.md
+package-lock.json
