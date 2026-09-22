@@ -1,10 +1,17 @@
+
 node_modules/
 .env
+
 .DS_Store
 .vscode/
+
 .terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
 *.tfplan
+tfplan
+tfplan.txt
+.terraform.lock.hcl
+
 credentials.md
