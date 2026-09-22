@@ -7,3 +7,4 @@ node_modules/
 *.tfstate.*
 *.tfvars
 *.tfplan
+credentials.md
