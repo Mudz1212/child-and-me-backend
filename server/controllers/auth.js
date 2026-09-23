@@ -4,7 +4,8 @@ const User = require("../models/User");
 
 async function register(req, res) {
   const { email, password, role } = req.body;
-  if (!email || !password) return res.status(400).json({ error: "email and password are required" });
+  if (!email || !password)
+    return res.status(400).json({ error: "email and password are required" });
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await User.create({ email, passwordHash, role });
   res.status(201).json(user);
@@ -19,9 +20,14 @@ async function login(req, res) {
   const token = jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: "7d" }
+    { expiresIn: "7d" },
   );
   res.json({ token });
 }
 
-module.exports = { register, login };
+async function index(req, res) {
+  const users = await User.findAll();
+  res.json(users);
+}
+
+module.exports = { register, login, index };
