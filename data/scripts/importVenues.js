@@ -9,7 +9,7 @@ async function importVenues() {
   try {
     console.log(`Sending venues...`);
 
-    const response = await fetch("http://4.165.101.46/venues/import", {
+    const response = await fetch("http://4.223.159.135/venues/import", {
       method: "POST",
 
       headers: {
