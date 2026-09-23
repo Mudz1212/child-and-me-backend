@@ -1,4 +1,4 @@
-const Geoapify = require("../models/Geoapify");
+const Geoapify = require("../models/Geoapify_id");
 
 async function show(req, res) {
   const venue = await Geoapify.findByPlaceId(req.params.geoapifyPlaceId);
