@@ -45,6 +45,63 @@ class Venue {
     return result.rows[0];
   }
 
+  static async seed(venues) {
+    const imported = [];
+
+    for (const venue of venues) {
+      const result = await db.query(
+        `
+        INSERT INTO venues (
+          geoapify_place_id,
+          category,
+          address,
+          borough,
+          website,
+          opening_hours,
+          name,
+          latitude,
+          longitude,
+          postcode
+        )
+        VALUES (
+          $1, $2, $3, $4, $5,
+          $6, $7, $8, $9, $10
+        )
+
+        ON CONFLICT (geoapify_place_id)
+        DO UPDATE SET
+          category = EXCLUDED.category,
+          address = EXCLUDED.address,
+          borough = EXCLUDED.borough,
+          website = EXCLUDED.website,
+          opening_hours = EXCLUDED.opening_hours,
+          name = EXCLUDED.name,
+          latitude = EXCLUDED.latitude,
+          longitude = EXCLUDED.longitude,
+          postcode = EXCLUDED.postcode
+
+        RETURNING *;
+        `,
+        [
+          venue.geoapify_place_id,
+          venue.category,
+          venue.address,
+          venue.borough,
+          venue.website,
+          venue.opening_hours,
+          venue.name,
+          venue.latitude,
+          venue.longitude,
+          venue.postcode
+        ]
+      );
+
+      imported.push(result.rows[0]);
+    }
+
+    return imported;
+  }
+
   static async update(id, ownerId, fields) {
     const result = await db.query(
       `UPDATE venues SET name = $1, description = $2, postcode = $3, age_suitability = $4
