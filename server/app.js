@@ -14,16 +14,48 @@ app.get("/", (req, res) => {
   res.json({
     name: "Baby & Me API",
     endpoints: [
-      { method: "GET",  path: "/venues",                    description: "List venues. Query params: amenity, age, postcode" },
-      { method: "GET",  path: "/venues/:id",                 description: "Get one venue" },
-      { method: "POST", path: "/venues",                     description: "Create a venue (auth required)" },
-      { method: "PUT",  path: "/venues/:id",                 description: "Update your own venue (auth required)" },
-      { method: "GET",  path: "/venues/:venueId/reviews",     description: "List reviews for a venue" },
-      { method: "POST", path: "/venues/:venueId/reviews",     description: "Add a review (auth required)" },
-      { method: "GET",  path: "/amenities",                   description: "List all amenity types" },
-      { method: "POST", path: "/auth/register",               description: "Create an account" },
-      { method: "POST", path: "/auth/login",                  description: "Log in, returns a JWT" }
-    ]
+      {
+        method: "GET",
+        path: "/venues",
+        description: "List venues. Query params: amenity, age, postcode",
+      },
+      { method: "GET", path: "/venues/:id", description: "Get one venue" },
+      {
+        method: "POST",
+        path: "/venues",
+        description: "Create a venue (auth required)",
+      },
+      {
+        method: "PUT",
+        path: "/venues/:id",
+        description: "Update your own venue (auth required)",
+      },
+      {
+        method: "GET",
+        path: "/venues/:venueId/reviews",
+        description: "List reviews for a venue",
+      },
+      {
+        method: "POST",
+        path: "/venues/:venueId/reviews",
+        description: "Add a review (auth required)",
+      },
+      {
+        method: "GET",
+        path: "/amenities",
+        description: "List all amenity types",
+      },
+      {
+        method: "POST",
+        path: "/auth/register",
+        description: "Create an account",
+      },
+      {
+        method: "POST",
+        path: "/auth/login",
+        description: "Log in, returns a JWT",
+      },
+    ],
   });
 });
 
