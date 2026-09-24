@@ -1,0 +1,7 @@
+{
+  "name": "child-and-me-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "data:seed": "node data/scripts/fetchVenues.js && jupyter nbconvert --to notebook --execute data/scripts/cleanVenues.ipynb --output cleanVenues.ipynb && node data/scripts/addAccessibilityFields.js && node data/scripts/importVenues.js && node data/scripts/seedVenueAmenities.js && node data/scripts/seedDemoVenueAmenities.js"
+}
+}

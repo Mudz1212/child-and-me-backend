@@ -7,7 +7,7 @@ class VenueAmenity{
     }
 
     static async getAll(){
-        const result = await db.query("SELECT venue_amenities.venue_id, venue_amenities.amenity_id, amenities.name AS amenity_name FROM venue_amenities LEFT JOIN amenities ON amenity.id = venue_amenities.amenity_id ORDER BY venue_amenities.venue_id, amenities.name")
+        const result = await db.query("SELECT venue_amenities.venue_id, venue_amenities.amenity_id, amenities.name AS amenity_name FROM venue_amenities LEFT JOIN amenities ON amenities.id = venue_amenities.amenity_id ORDER BY venue_amenities.venue_id, amenities.name")
         return result.rows
     }
 }
