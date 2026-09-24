@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "fetch-venues": "node --env-file=../.env ../data/scripts/fetchVenues.js"
   },
   "dependencies": {
     "express": "^4.19.2",

@@ -1,13 +1,14 @@
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config();
 
 const API_KEY = process.env.API_KEY;
 
+// Approximate centre of Hertfordshire
+const longitude = -0.2237;
+const latitude = 51.8098;
 
-const longitude = -0.1276;
-const latitude = 51.5072;
-const radius = 5000;
+// Radius is measured in metres
+const radius = 35000;
 const limit = 100;
 
 const categories = ["catering.cafe", "catering.restaurant", "entertainment.museum", "leisure.playground"];
