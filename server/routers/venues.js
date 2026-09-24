@@ -4,6 +4,11 @@ const { requireAuth } = require("../middleware/auth");
 const router = express.Router();
 router.get("/", controller.index);
 router.post("/import", controller.importVenues);
+router.post(
+  "/:id/amenities",
+  requireAuth,
+  controller.addAmenity
+);
 router.get("/:id", controller.show);
 router.post("/", requireAuth, controller.create);
 router.put("/:id", requireAuth, controller.update);
