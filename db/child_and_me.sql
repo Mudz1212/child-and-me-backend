@@ -102,6 +102,19 @@ INSERT INTO users (email, password_hash, role) VALUES
   ('parent1@example.com', 'placeholder-hash', 'parent'),
   ('parent2@example.com', 'placeholder-hash', 'parent');
 
+INSERT INTO amenities (name) VALUES
+  ('Accessible entrance'),
+  ('Accessible toilet'),
+  ('Prams allowed'),
+  ('Pram storage'),
+  ('Changing facilities'),
+  ('Table reservation'),
+  ('Breastfeeding friendly'),
+  ('Children''s activities'),
+  ('Parking'),
+  ('High chairs')
+ON CONFLICT (name) DO NOTHING;
+
 INSERT INTO venues (name, description, latitude, longitude, postcode, age_suitability, owner_id) VALUES
   ('Jacob the Angel', 'Cafe on Neal''s Yard, quiet corner seating.', 51.514380, -0.126166, 'WC2H 9DP', '0-5', 1),
   ('Little Leaf Cafe', 'Family-run cafe near Regent''s Park with a soft play corner.', 51.526320, -0.153980, 'NW1 6XE', '0-3', 1),
