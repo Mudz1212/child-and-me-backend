@@ -36,11 +36,68 @@ class Venue {
     return result.rows[0];
   }
 
-  static async create({ name, description, latitude, longitude, postcode, ageSuitability, ownerId }) {
+  static async create({
+    name,
+    description,
+    latitude,
+    longitude,
+    postcode,
+    ageSuitability,
+    ownerId,
+  }) {
     const result = await db.query(
       `INSERT INTO venues (name, description, latitude, longitude, postcode, age_suitability, owner_id)
        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [name, description, latitude, longitude, postcode, ageSuitability, ownerId]
+      [
+        name,
+        description,
+        latitude,
+        longitude,
+        postcode,
+        ageSuitability,
+        ownerId,
+      ],
+    );
+    return result.rows[0];
+  }
+
+  static async patch(id, ownerId, fields) {
+    const columnMap = {
+      name: "name",
+      description: "description",
+      latitude: "latitude",
+      longitude: "longitude",
+      postcode: "postcode",
+      ageSuitability: "age_suitability",
+      category: "category",
+      address: "address",
+      borough: "borough",
+      website: "website",
+      openingHours: "opening_hours",
+    };
+
+    const setClauses = [];
+    const values = [];
+    let i = 1;
+
+    for (const [key, column] of Object.entries(columnMap)) {
+      if (fields[key] !== undefined) {
+        setClauses.push(`${column} = $${i}`);
+        values.push(fields[key]);
+        i++;
+      }
+    }
+
+    if (setClauses.length === 0) {
+      throw new Error("No valid fields provided to update");
+    }
+
+    values.push(id, ownerId);
+
+    const result = await db.query(
+      `UPDATE venues SET ${setClauses.join(", ")}
+     WHERE id = $${i} AND owner_id = $${i + 1} RETURNING *`,
+      values,
     );
     return result.rows[0];
   }
@@ -92,8 +149,8 @@ class Venue {
           venue.name,
           venue.latitude,
           venue.longitude,
-          venue.postcode
-        ]
+          venue.postcode,
+        ],
       );
 
       imported.push(result.rows[0]);
@@ -106,7 +163,14 @@ class Venue {
     const result = await db.query(
       `UPDATE venues SET name = $1, description = $2, postcode = $3, age_suitability = $4
        WHERE id = $5 AND owner_id = $6 RETURNING *`,
-      [fields.name, fields.description, fields.postcode, fields.ageSuitability, id, ownerId]
+      [
+        fields.name,
+        fields.description,
+        fields.postcode,
+        fields.ageSuitability,
+        id,
+        ownerId,
+      ],
     );
     return result.rows[0];
   }

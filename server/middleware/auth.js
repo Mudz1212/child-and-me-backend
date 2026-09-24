@@ -12,4 +12,11 @@ function requireAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAuth };
+function requireRole(...roles) {
+  return (req, res, next) =>
+    roles.includes(req.user?.role)
+      ? next()
+      : res.status(403).json({ error: "Forbidden" });
+}
+
+module.exports = { requireAuth, requireRole };

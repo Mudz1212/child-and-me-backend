@@ -1,7 +1,7 @@
-jest.mock("../db/connect");
-const db = require("../../db/connect");
+jest.mock("../../../db/connect");
+const db = require("../../../db/connect");
 const request = require("supertest");
-const app = require("../../app");
+const app = require("../../../app");
 
 describe("GET /amenities", () => {
   it("returns the amenities list", async () => {

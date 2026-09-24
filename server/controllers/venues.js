@@ -22,7 +22,7 @@ async function importVenues(req, res) {
 
     if (!Array.isArray(venues)) {
       return res.status(400).json({
-        error: "Request body must be an array of venues"
+        error: "Request body must be an array of venues",
       });
     }
 
@@ -31,22 +31,36 @@ async function importVenues(req, res) {
     res.status(201).json({
       message: "Venue import complete",
       processed: venues.length,
-      imported: result.length
+      imported: result.length,
     });
-
   } catch (error) {
     console.error("Venue import failed:", error);
 
     res.status(500).json({
-      error: "Failed to import venues"
+      error: "Failed to import venues",
     });
   }
 }
 
 async function update(req, res) {
   const venue = await Venue.update(req.params.id, req.user.id, req.body);
-  if (!venue) return res.status(404).json({ error: "Venue not found or not yours" });
+  if (!venue)
+    return res.status(404).json({ error: "Venue not found or not yours" });
   res.json(venue);
 }
 
-module.exports = { index, show, create, update, importVenues };
+async function patch(req, res) {
+  try {
+    const venue = await Venue.patch(req.params.id, req.user.id, req.body);
+    if (!venue)
+      return res.status(404).json({ error: "Venue not found or not yours" });
+    res.json(venue);
+  } catch (err) {
+    if (err.message === "No valid fields provided to update") {
+      return res.status(400).json({ error: err.message });
+    }
+    throw err;
+  }
+}
+
+module.exports = { index, show, create, update, importVenues, patch };
