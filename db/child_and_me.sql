@@ -94,9 +94,6 @@ CREATE TABLE venue_views (
     viewed_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO amenities (name) VALUES
-  ('Baby changing'), ('Pushchair access'), ('Parking'), ('Accessible toilet'), ('High chairs');
-
 INSERT INTO users (email, password_hash, role) VALUES
   ('owner@example.com', 'placeholder-hash', 'venue_owner'),
   ('parent1@example.com', 'placeholder-hash', 'parent'),
