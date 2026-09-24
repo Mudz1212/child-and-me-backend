@@ -101,12 +101,13 @@ pipeline {
                 withCredentials([string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET')]) {
                     sshagent(credentials: ['vm-ssh-key']) {
                         sh '''
-                            printf 'JWT_SECRET=%s\\n' "$JWT_SECRET" | ssh -o StrictHostKeyChecking=no azureuser@$VM_IP '
-                              sudo sh -c "umask 077 && cat > /opt/app/.env" &&
-                              cd /opt/app &&
-                              docker compose pull child-and-me-server &&
-                              docker compose up -d child-and-me-server'
-                        '''
+    printf 'JWT_SECRET=%s\\n' "$JWT_SECRET" | ssh -o StrictHostKeyChecking=no azureuser@$VM_IP '
+      sudo sh -c "umask 077 && cat > /opt/app/.env" &&
+      sudo chown azureuser:azureuser /opt/app/.env &&
+      cd /opt/app &&
+      /usr/bin/docker compose pull child-and-me-server &&
+      /usr/bin/docker compose up -d child-and-me-server'
+'''
                     }
                 }
             }
