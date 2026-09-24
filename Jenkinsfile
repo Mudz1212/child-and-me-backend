@@ -78,6 +78,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy Server Container') {
+            steps {
+                dir('terraform/infrastructure') {
+                    script {
+                        env.VM_IP = sh(
+                            script: 'terraform output -raw public_ip_address',
+                            returnStdout: true
+                        ).trim()
+                    }
+                }
+                sshagent(credentials: ['vm-ssh-key']) {
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no azureuser@$VM_IP \
+                          "docker compose -f /opt/app/docker-compose.yml pull child-and-me-server && \
+                           docker compose -f /opt/app/docker-compose.yml up -d child-and-me-server"
+                    '''
+                }
+            }
+        }
     }
 
     post {

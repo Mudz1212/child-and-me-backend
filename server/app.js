@@ -5,6 +5,7 @@ const authRouter = require("./routers/auth");
 const venuesRouter = require("./routers/venues");
 const reviewsRouter = require("./routers/reviews");
 const amenitiesRouter = require("./routers/amenities");
+const geoapifyRouter = require("./routers/geoapify");
 
 const app = express();
 app.use(cors());
@@ -63,6 +64,10 @@ app.use("/auth", authRouter);
 app.use("/venues", venuesRouter);
 app.use("/venues/:venueId/reviews", reviewsRouter);
 app.use("/amenities", amenitiesRouter);
+
 app.use("/venue-amenities", venueAmenitiesRouter);
+
+app.use("/geoapify", geoapifyRouter);
+
 
 module.exports = app;
