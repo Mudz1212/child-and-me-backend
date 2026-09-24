@@ -2,10 +2,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const SELF_SERVICE_ROLES = ["parent", "venue_owner"];
+
 async function register(req, res) {
   const { email, password, role } = req.body;
   if (!email || !password)
     return res.status(400).json({ error: "email and password are required" });
+  if (role !== undefined && !SELF_SERVICE_ROLES.includes(role))
+    return res.status(400).json({ error: "Invalid role" });
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await User.create({ email, passwordHash, role });
   res.status(201).json(user);

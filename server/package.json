@@ -6,7 +6,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "jest --verbose",
-    "fetch-venues": "node --env-file=../.env ../data/scripts/fetchVenues.js"
+    "fetch-venues": "node --env-file=../.env ../data/scripts/fetchVenues.js",
+    "import-venues": "node --env-file=../.env ../data/scripts/importVenues.js"
   },
   "dependencies": {
     "express": "^4.19.2",
@@ -24,7 +25,11 @@
   "jest": {
     "testEnvironment": "node",
     "setupFiles": [
-      "./tests/setup.js"
+      "./__tests__/unit_testing/controller/setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "setup.js"
     ]
   }
 }

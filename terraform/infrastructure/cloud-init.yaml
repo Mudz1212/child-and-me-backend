@@ -9,6 +9,14 @@ write_files:
     permissions: "0644"
     content: |
       services:
+        child-and-me-db:
+          image: mudz1212/child-and-me-db-cloud:latest
+          restart: always
+          volumes:
+            - child-and-me-db-data:/var/lib/postgresql/data
+          networks:
+            - child-and-me-network
+
         child-and-me-server:
           image: mudz1212/child-and-me-server-cloud:latest
           ports:
@@ -16,14 +24,8 @@ write_files:
           restart: always
           depends_on:
             - child-and-me-db
-          networks:
-            - child-and-me-network
-
-        child-and-me-db:
-          image: mudz1212/child-and-me-db-cloud:latest
-          restart: always
-          volumes:
-            - child-and-me-db-data:/var/lib/postgresql/data
+          env_file:
+            - .env
           networks:
             - child-and-me-network
 
@@ -42,4 +44,5 @@ runcmd:
   - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   - systemctl enable --now docker
   - usermod -aG docker azureuser
+  - touch /opt/app/.env
   - docker compose -f /opt/app/docker-compose.yml up -d

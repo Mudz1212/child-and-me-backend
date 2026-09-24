@@ -19,6 +19,15 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                dir('server') {
+                    sh 'npm ci'
+                    sh 'npm test'
+                }
+            }
+        }
+
         stage('Build Docker Images') {
             steps {
                 dir('db') {
@@ -89,12 +98,16 @@ pipeline {
                         ).trim()
                     }
                 }
-                sshagent(credentials: ['vm-ssh-key']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no azureuser@$VM_IP \
-                          "docker compose -f /opt/app/docker-compose.yml pull child-and-me-server && \
-                           docker compose -f /opt/app/docker-compose.yml up -d child-and-me-server"
-                    '''
+                withCredentials([string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET')]) {
+                    sshagent(credentials: ['vm-ssh-key']) {
+                        sh '''
+                            printf 'JWT_SECRET=%s\\n' "$JWT_SECRET" | ssh -o StrictHostKeyChecking=no azureuser@$VM_IP '
+                              sudo sh -c "umask 077 && cat > /opt/app/.env" &&
+                              cd /opt/app &&
+                              docker compose pull child-and-me-server &&
+                              docker compose up -d child-and-me-server'
+                        '''
+                    }
                 }
             }
         }

@@ -6,6 +6,8 @@ services:
     ports:
       - "5432:5432"
     restart: always
+    volumes:
+      - child-and-me-db-data:/var/lib/postgresql/data
     networks:
       - child-and-me-network
 
@@ -18,8 +20,13 @@ services:
     restart: always
     depends_on:
       - child-and-me-db
+    env_file:
+      - .env
     networks:
       - child-and-me-network
 
 networks:
   child-and-me-network:
+
+volumes:
+  child-and-me-db-data:
