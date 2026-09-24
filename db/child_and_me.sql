@@ -11,19 +11,21 @@ CREATE TABLE users (
 CREATE TABLE venues (
   id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   geoapify_place_id VARCHAR(255) UNIQUE,
-  category VARCHAR(255),
-  address VARCHAR(255),
-  borough VARCHAR(255),
-  website VARCHAR(255),
-  opening_hours VARCHAR(255),
   name VARCHAR(255) NOT NULL,
-  description TEXT,
+  category VARCHAR(255),
+  address TEXT,
+  town VARCHAR(255),
+  county VARCHAR(255),
+  postcode VARCHAR(20),
   latitude DECIMAL(9,6) NOT NULL,
   longitude DECIMAL(9,6) NOT NULL,
-  postcode VARCHAR(20) NOT NULL,
+  website TEXT,
+  opening_hours TEXT,
+  description TEXT,
   age_suitability VARCHAR(50),
-  owner_id INT REFERENCES users(id),
-  created_at TIMESTAMP NOT NULL DEFAULT now()
+  owner_id INT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE amenities (
@@ -34,6 +36,11 @@ CREATE TABLE amenities (
 CREATE TABLE venue_amenities (
   venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
   amenity_id INT NOT NULL REFERENCES amenities(id) ON DELETE CASCADE,
+  status BOOLEAN,
+  source VARCHAR(255),
+  verified BOOLEAN NOT NULL DEFAULT FALSE,
+  updated_by INT REFERENCES users(id) ON DELETE SET NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   PRIMARY KEY (venue_id, amenity_id)
 );
 
@@ -83,6 +90,7 @@ CREATE TABLE venue_amendments (
     submitted_by INT REFERENCES users(id) ON DELETE SET NULL,
     changes TEXT NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    CHECK (status IN ('pending', 'approved', 'rejected')),
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
@@ -95,7 +103,17 @@ CREATE TABLE venue_views (
 );
 
 INSERT INTO amenities (name) VALUES
-  ('Baby changing'), ('Pushchair access'), ('Parking'), ('Accessible toilet'), ('High chairs');
+  ('Accessible entrance'),
+  ('Accessible toilet'),
+  ('Prams allowed'),
+  ('Pram storage'),
+  ('Changing facilities'),
+  ('Table reservation'),
+  ('Breastfeeding friendly'),
+  ('Children''s activities'),
+  ('Parking'),
+  ('High chairs')
+ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO users (email, password_hash, role) VALUES
   ('owner@example.com', 'placeholder-hash', 'venue_owner'),
