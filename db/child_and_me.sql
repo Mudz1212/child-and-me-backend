@@ -36,11 +36,6 @@ CREATE TABLE amenities (
 CREATE TABLE venue_amenities (
   venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
   amenity_id INT NOT NULL REFERENCES amenities(id) ON DELETE CASCADE,
-  status BOOLEAN,
-  source VARCHAR(255),
-  verified BOOLEAN NOT NULL DEFAULT FALSE,
-  updated_by INT REFERENCES users(id) ON DELETE SET NULL,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   PRIMARY KEY (venue_id, amenity_id)
 );
 

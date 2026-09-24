@@ -5,9 +5,7 @@ class Venue {
     let query = `
       SELECT v.*, COALESCE(json_agg(a.name) FILTER (WHERE a.name IS NOT NULL), '[]') AS amenities
       FROM venues v
-      LEFT JOIN venue_amenities va
-  ON va.venue_id = v.id
-  AND va.status = TRUE
+      LEFT JOIN venue_amenities va ON va.venue_id = v.id
       LEFT JOIN amenities a ON a.id = va.amenity_id
     `;
     const conditions = [];
@@ -55,50 +53,46 @@ class Venue {
         `
         INSERT INTO venues (
           geoapify_place_id,
-          name,
           category,
           address,
-          town,
-          county,
-          postcode,
+          borough,
+          website,
+          opening_hours,
+          name,
           latitude,
           longitude,
-          website,
-          opening_hours
+          postcode
         )
         VALUES (
           $1, $2, $3, $4, $5,
-          $6, $7, $8, $9, $10, $11
+          $6, $7, $8, $9, $10
         )
 
         ON CONFLICT (geoapify_place_id)
         DO UPDATE SET
-          name = EXCLUDED.name,
           category = EXCLUDED.category,
           address = EXCLUDED.address,
-          town = EXCLUDED.town,
-          county = EXCLUDED.county,
-          postcode = EXCLUDED.postcode,
-          latitude = EXCLUDED.latitude,
-          longitude = EXCLUDED.longitude,
+          borough = EXCLUDED.borough,
           website = EXCLUDED.website,
           opening_hours = EXCLUDED.opening_hours,
-          updated_at = NOW()
+          name = EXCLUDED.name,
+          latitude = EXCLUDED.latitude,
+          longitude = EXCLUDED.longitude,
+          postcode = EXCLUDED.postcode
 
         RETURNING *;
         `,
         [
           venue.geoapify_place_id,
-          venue.name,
           venue.category,
           venue.address,
-          venue.town,
-          venue.county,
-          venue.postcode,
+          venue.borough,
+          venue.website,
+          venue.opening_hours,
+          venue.name,
           venue.latitude,
           venue.longitude,
-          venue.website,
-          venue.opening_hours
+          venue.postcode
         ]
       );
 
@@ -107,42 +101,7 @@ class Venue {
 
     return imported;
   }
-static async addAmenity(
-  venueId,
-  amenityId,
-  status,
-  source = "User submission"
-) {
-  const result = await db.query(
-    `
-    INSERT INTO venue_amenities (
-      venue_id,
-      amenity_id,
-      status,
-      source,
-      verified
-    )
-    VALUES ($1, $2, $3, $4, FALSE)
 
-    ON CONFLICT (venue_id, amenity_id)
-    DO UPDATE SET
-      status = EXCLUDED.status,
-      source = EXCLUDED.source,
-      verified = FALSE,
-      updated_at = NOW()
-
-    RETURNING *;
-    `,
-    [
-      venueId,
-      amenityId,
-      status,
-      source
-    ]
-  );
-
-  return result.rows[0];
-}
   static async update(id, ownerId, fields) {
     const result = await db.query(
       `UPDATE venues SET name = $1, description = $2, postcode = $3, age_suitability = $4
