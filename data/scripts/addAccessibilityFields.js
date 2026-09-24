@@ -5,7 +5,7 @@ const inputPath = path.join(__dirname, "../raw/venues_raw.json");
 
 const outputPath = path.join(
   __dirname,
-  "../raw/venues_enriched.json"
+  "../raw/amenities.json"
 );
 
 const rawVenues = JSON.parse(
