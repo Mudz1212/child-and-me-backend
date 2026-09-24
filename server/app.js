@@ -64,6 +64,10 @@ app.use("/auth", authRouter);
 app.use("/venues", venuesRouter);
 app.use("/venues/:venueId/reviews", reviewsRouter);
 app.use("/amenities", amenitiesRouter);
+
+app.use("/venue-amenities", venueAmenitiesRouter);
+
 app.use("/geoapify", geoapifyRouter);
+
 
 module.exports = app;
