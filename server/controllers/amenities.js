@@ -1,7 +1,16 @@
 const Amenity = require("../models/Amenity");
 
 async function index(req, res) {
-  res.json(await Amenity.findAll());
+  try {
+    const amenities = await Amenity.findAll();
+    res.status(200).json(amenities);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: "Failed to retrieve amenities"
+    });
+  }
 }
 
 async function create(req, res) {
