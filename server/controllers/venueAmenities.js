@@ -27,6 +27,14 @@ async function create(req, res) {
 
     const venueAmenity = await VenueAmenity.create(venue_id, amenity_id);
 
+    if (!venueAmenity) {
+      return res.status(200).json({
+        message: "Venue already has this amenity",
+        venue_id,
+        amenity_id
+      });
+    }
+
     res.status(201).json(venueAmenity);
   } catch (error) {
     console.error(error);

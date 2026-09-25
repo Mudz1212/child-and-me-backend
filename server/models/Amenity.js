@@ -7,8 +7,8 @@ class Amenity {
   }
 
   static async create(name) {
-    const result = await db.query("INSERT INTO amenities name VALUES ($1) RETURNING *", [name])
-    return result.rows
+    const result = await db.query("INSERT INTO amenities (name) VALUES ($1) ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name RETURNING *", [name])
+    return result.rows[0]
   }
 
 }

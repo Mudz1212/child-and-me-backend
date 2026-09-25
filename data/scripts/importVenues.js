@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config();
 
 const filePath = path.join(__dirname, "../cleaned/venues_cleaned.json");
 
