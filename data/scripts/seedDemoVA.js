@@ -3,10 +3,10 @@ require("dotenv").config();
 const API_URL = "http://4.223.159.135";
 
 const MIN_AMENITIES = 1;
-const MAX_AMENITIES = 4;
+const MAX_AMENITIES = 10;
 
 
-const START_VENUE_ID = 6;
+const START_VENUE_ID = 1;
 
 function getRandomItems(items, amount) {
   return [...items]
@@ -66,7 +66,7 @@ async function seedDemoVenueAmenities() {
 
       for (const amenity of selectedAmenities) {
         const response = await fetch(
-          `${API_URL}/venue-amenities`,
+          `${API_URL}/venueAmenities`,
           {
             method: "POST",
             headers: {
