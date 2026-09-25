@@ -1,4 +1,5 @@
 const Venue = require("../models/Venue");
+const Geoapify = require("../models/Geoapify_id"); // ← new
 
 async function index(req, res) {
   const { amenity, age, postcode } = req.query;
@@ -7,6 +8,13 @@ async function index(req, res) {
 
 async function show(req, res) {
   const venue = await Venue.findById(req.params.id);
+  if (!venue) return res.status(404).json({ error: "Venue not found" });
+  res.json(venue);
+}
+
+// ← new function
+async function showByGeoapifyId(req, res) {
+  const venue = await Geoapify.findByPlaceId(req.params.geoapifyPlaceId);
   if (!venue) return res.status(404).json({ error: "Venue not found" });
   res.json(venue);
 }
@@ -63,4 +71,12 @@ async function patch(req, res) {
   }
 }
 
-module.exports = { index, show, create, update, importVenues, patch };
+module.exports = {
+  index,
+  show,
+  showByGeoapifyId,
+  create,
+  update,
+  patch,
+  importVenues,
+};
