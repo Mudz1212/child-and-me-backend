@@ -8,7 +8,7 @@ const outputPath = path.join(
   "../raw/amenities.json"
 );
 
-const rawVenues = JSON.parse(
+const venues = JSON.parse(
   fs.readFileSync(inputPath, "utf8")
 );
 
