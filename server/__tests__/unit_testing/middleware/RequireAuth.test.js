@@ -69,7 +69,7 @@ describe("requireAuth", () => {
     const expiredToken = jwt.sign(
       { id: 1, email: "test@example.com", role: "parent" },
       process.env.JWT_SECRET,
-      { expiresIn: -10 }, // this here has already expired 10 seconds ago so it should not work
+      { expiresIn: -10 },
     );
     req.headers.authorization = `Bearer ${expiredToken}`;
 

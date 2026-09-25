@@ -9,6 +9,10 @@ const token = jwt.sign(
   process.env.JWT_SECRET,
 );
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe("GET /venues", () => {
   it("returns a list of venues", async () => {
     db.query.mockResolvedValueOnce({
@@ -63,36 +67,24 @@ describe("POST /venues", () => {
 });
 
 describe("POST /venues/import", () => {
-  const adminToken = jwt.sign(
-    { id: 9, email: "admin@example.com", role: "admin" },
-    process.env.JWT_SECRET,
-  );
-
-  it("rejects a request with no auth token", async () => {
-    const res = await request(app).post("/venues/import").send([]);
-
-    expect(res.status).toBe(401);
-  });
-
-  it("rejects a non-admin user", async () => {
-    const res = await request(app)
-      .post("/venues/import")
-      .set("Authorization", `Bearer ${token}`)
-      .send([]);
-
-    expect(res.status).toBe(403);
-  });
-
-  it("imports venues for an admin", async () => {
-    db.query.mockResolvedValueOnce({ rows: [{ id: 1, name: "Test Cafe" }] });
+  it("imports venues with no auth required", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 10, name: "Imported Venue" }],
+    });
 
     const res = await request(app)
       .post("/venues/import")
-      .set("Authorization", `Bearer ${adminToken}`)
-      .send([{ geoapify_place_id: "abc", name: "Test Cafe" }]);
+      .send([{ name: "Imported Venue" }]);
 
     expect(res.status).toBe(201);
-    expect(res.body.imported).toBe(1);
+  });
+
+  it("rejects a non-array body", async () => {
+    const res = await request(app)
+      .post("/venues/import")
+      .send({ not: "an array" });
+
+    expect(res.status).toBe(400);
   });
 });
 

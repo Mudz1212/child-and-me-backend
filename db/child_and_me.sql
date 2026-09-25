@@ -112,13 +112,6 @@ INSERT INTO amenities (name) VALUES
   ('High chairs')
 ON CONFLICT (name) DO NOTHING;
 
-INSERT INTO venues (name, description, latitude, longitude, postcode, age_suitability, owner_id) VALUES
-  ('Jacob the Angel', 'Cafe on Neal''s Yard, quiet corner seating.', 51.514380, -0.126166, 'WC2H 9DP', '0-5', 1),
-  ('Little Leaf Cafe', 'Family-run cafe near Regent''s Park with a soft play corner.', 51.526320, -0.153980, 'NW1 6XE', '0-3', 1),
-  ('The Hideout', 'Independent coffee shop, step-free entrance, wide aisles.', 51.507350, -0.127680, 'SE1 8XX', '0-8', 1),
-  ('Bumble & Co', 'Baby-friendly brunch spot with a dedicated feeding room.', 51.489900, -0.176300, 'SW11 1JQ', '0-2', 1),
-  ('Riverside Kitchen', 'Riverside terrace, buggy-accessible throughout.', 51.503330, -0.119500, 'SE1 9PP', '0-10', 1);
-
 INSERT INTO venue_amenities (venue_id, amenity_id) VALUES
   (1, 1), (1, 2),
   (2, 1), (2, 2), (2, 5),
