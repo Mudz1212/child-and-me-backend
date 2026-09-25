@@ -34,12 +34,12 @@ app.get("/", (req, res) => {
       },
       {
         method: "GET",
-        path: "/venues/:venueId/reviews",
-        description: "List reviews for a venue",
+        path: "/venues/:geoapifyPlaceId/reviews",
+        description: "List reviews for a venue, looked up by geoapify_place_id",
       },
       {
         method: "POST",
-        path: "/venues/:venueId/reviews",
+        path: "/venues/:geoapifyPlaceId/reviews",
         description: "Add a review (auth required)",
       },
       {
@@ -73,7 +73,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/venues", venuesRouter);
-app.use("/venues/:venueId/reviews", reviewsRouter);
+app.use("/venues/:geoapifyPlaceId/reviews", reviewsRouter);
 app.use("/amenities", amenitiesRouter);
 app.use("/venueAmenities", venueAmenitiesRouter);
 app.use("/geoapify", geoapifyRouter);
