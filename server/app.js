@@ -1,3 +1,17 @@
+const express = require("express");
+const cors = require("cors");
+
+const authRouter = require("./routers/auth");
+const venuesRouter = require("./routers/venues");
+const reviewsRouter = require("./routers/reviews");
+const amenitiesRouter = require("./routers/amenities");
+const venueAmenitiesRouter = require("./routers/venueAmenities");
+const geoapifyRouter = require("./routers/geoapify");
+
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: "10mb" }));
+
 app.get("/", (req, res) => {
   res.json({
     name: "Baby & Me API",
