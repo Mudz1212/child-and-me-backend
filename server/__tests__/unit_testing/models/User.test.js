@@ -127,4 +127,93 @@ describe("User", () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe("findById", () => {
+    it("returns a user with preferences, without the password hash", async () => {
+      const testUser = {
+        id: 4,
+        email: "test@example.com",
+        role: "parent",
+        preferences: ["Parking"],
+        created_at: "2026-01-01",
+      };
+
+      db.query.mockResolvedValueOnce({ rows: [testUser] });
+
+      const result = await User.findById(4);
+
+      expect(result).toEqual(testUser);
+      expect(result).not.toHaveProperty("password_hash");
+      expect(db.query).toHaveBeenCalledWith(
+        "SELECT id, email, role, preferences, created_at FROM users WHERE id = $1",
+        [4],
+      );
+    });
+
+    it("returns undefined when no user matches", async () => {
+      db.query.mockResolvedValueOnce({ rows: [] });
+
+      const result = await User.findById(999);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe("updatePreferences", () => {
+    it("replaces a user's preferences", async () => {
+      const updatedUser = {
+        id: 4,
+        email: "test@example.com",
+        role: "parent",
+        preferences: ["Parking", "High chairs"],
+      };
+
+      db.query.mockResolvedValueOnce({ rows: [updatedUser] });
+
+      const result = await User.updatePreferences(4, [
+        "Parking",
+        "High chairs",
+      ]);
+
+      expect(result).toEqual(updatedUser);
+      expect(db.query).toHaveBeenCalledWith(expect.any(String), [
+        ["Parking", "High chairs"],
+        4,
+      ]);
+    });
+
+    it("returns undefined when the user doesn't exist", async () => {
+      db.query.mockResolvedValueOnce({ rows: [] });
+
+      const result = await User.updatePreferences(999, ["Parking"]);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe("addPreference", () => {
+    it("adds a new preference", async () => {
+      const updatedUser = {
+        id: 4,
+        email: "test@example.com",
+        role: "parent",
+        preferences: ["Parking"],
+      };
+
+      db.query.mockResolvedValueOnce({ rows: [updatedUser] });
+
+      const result = await User.addPreference(4, "Parking");
+
+      expect(result).toEqual(updatedUser);
+      expect(db.query).toHaveBeenCalledWith(expect.any(String), ["Parking", 4]);
+    });
+
+    it("returns undefined when the user doesn't exist", async () => {
+      db.query.mockResolvedValueOnce({ rows: [] });
+
+      const result = await User.addPreference(999, "Parking");
+
+      expect(result).toBeUndefined();
+    });
+  });
 });
