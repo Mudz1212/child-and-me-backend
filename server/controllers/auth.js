@@ -26,7 +26,7 @@ async function login(req, res) {
     process.env.JWT_SECRET,
     { expiresIn: "7d" },
   );
-  res.json({ token });
+  res.json({ token, id: user.id });
 }
 
 async function index(req, res) {
