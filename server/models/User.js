@@ -22,6 +22,36 @@ class User {
     );
     return result.rows;
   }
+
+  static async findById(id) {
+    const result = await db.query(
+      "SELECT id, email, role, preferences, created_at FROM users WHERE id = $1",
+      [id],
+    );
+    return result.rows[0];
+  }
+
+  static async updatePreferences(id, preferences) {
+    const result = await db.query(
+      "UPDATE users SET preferences = $1 WHERE id = $2 RETURNING id, email, role, preferences",
+      [preferences, id],
+    );
+    return result.rows[0];
+  }
+
+  static async addPreference(id, preference) {
+    const result = await db.query(
+      `UPDATE users
+     SET preferences = CASE
+       WHEN $1::text = ANY(preferences) THEN preferences
+       ELSE array_append(preferences, $1::text)
+     END
+     WHERE id = $2
+     RETURNING id, email, role, preferences`,
+      [preference, id],
+    );
+    return result.rows[0];
+  }
 }
 
 module.exports = User;
