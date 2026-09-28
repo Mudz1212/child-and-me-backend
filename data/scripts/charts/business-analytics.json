@@ -1,0 +1,1053 @@
+{
+  "generated_at": "2026-09-28T14:02:24.013172",
+  "is_demo_data": true,
+  "venues": [
+    {
+      "venue_id": 261,
+      "name": "People's Museum Somers Town",
+      "views": 1,
+      "relevant_searches": 59,
+      "venue_amenities": [
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 18
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 17
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 16
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 15
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 14
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 14
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 12
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 9
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 6
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 4
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 18
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 16
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 15
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 14
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 14
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 12
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 9
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 6
+        }
+      ]
+    },
+    {
+      "venue_id": 25,
+      "name": "St. George London",
+      "views": 2,
+      "relevant_searches": 98,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 30
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 27
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 26
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 21
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 20
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 20
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 20
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 18
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 10
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 10
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 27
+        }
+      ]
+    },
+    {
+      "venue_id": 15,
+      "name": "Blue Onion",
+      "views": 0,
+      "relevant_searches": 96,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 28
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 26
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 25
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 21
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 20
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 19
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 19
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 17
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 10
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 10
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 26
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 20
+        }
+      ]
+    },
+    {
+      "venue_id": 280,
+      "name": "RIBA Architecture Study Rooms",
+      "views": 0,
+      "relevant_searches": 59,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 17
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 17
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 16
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 15
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 15
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 12
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 12
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 5
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 5
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        }
+      ],
+      "opportunities": []
+    },
+    {
+      "venue_id": 199,
+      "name": "Petit Bistro",
+      "views": 4,
+      "relevant_searches": 51,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 16
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 15
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 14
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 13
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 12
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 11
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 9
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 6
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 15
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 12
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 9
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        }
+      ]
+    },
+    {
+      "venue_id": 221,
+      "name": "Twist Museum",
+      "views": 2,
+      "relevant_searches": 60,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 18
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 17
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 16
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 16
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 16
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 13
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 12
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 6
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 4
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 4
+        }
+      ],
+      "opportunities": []
+    },
+    {
+      "venue_id": 100,
+      "name": "Honeymoon Dessert 满记甜品",
+      "views": 2,
+      "relevant_searches": 98,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs"
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 29
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 26
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 25
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 23
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 21
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 20
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 19
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 17
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 10
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 10
+        }
+      ],
+      "opportunities": []
+    },
+    {
+      "venue_id": 142,
+      "name": "Ristorante Roma",
+      "views": 2,
+      "relevant_searches": 51,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly"
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 16
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 15
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 14
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 13
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 12
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 11
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 9
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 6
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 14
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        }
+      ]
+    },
+    {
+      "venue_id": 306,
+      "name": "Small Playground",
+      "views": 0,
+      "relevant_searches": 35,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 10
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 10
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 9
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 9
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 6
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 5
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 2
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 1
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 10
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 10
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 9
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 9
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 8
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 6
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 5
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 3
+        }
+      ]
+    },
+    {
+      "venue_id": 26,
+      "name": "Pavilion Cafe",
+      "views": 1,
+      "relevant_searches": 96,
+      "venue_amenities": [
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance"
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet"
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities"
+        },
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed"
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage"
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation"
+        }
+      ],
+      "amenity_demand": [
+        {
+          "amenity_id": 3,
+          "name": "Prams allowed",
+          "searches": 29
+        },
+        {
+          "amenity_id": 8,
+          "name": "Children's activities",
+          "searches": 26
+        },
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 25
+        },
+        {
+          "amenity_id": 4,
+          "name": "Pram storage",
+          "searches": 21
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 20
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 19
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 19
+        },
+        {
+          "amenity_id": 2,
+          "name": "Accessible toilet",
+          "searches": 17
+        },
+        {
+          "amenity_id": 1,
+          "name": "Accessible entrance",
+          "searches": 10
+        },
+        {
+          "amenity_id": 6,
+          "name": "Table reservation",
+          "searches": 10
+        }
+      ],
+      "opportunities": [
+        {
+          "amenity_id": 5,
+          "name": "Changing facilities",
+          "searches": 25
+        },
+        {
+          "amenity_id": 7,
+          "name": "Breastfeeding friendly",
+          "searches": 20
+        },
+        {
+          "amenity_id": 9,
+          "name": "Parking",
+          "searches": 19
+        },
+        {
+          "amenity_id": 10,
+          "name": "High chairs",
+          "searches": 19
+        }
+      ]
+    }
+  ]
+}
