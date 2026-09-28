@@ -72,6 +72,21 @@ app.get("/", (req, res) => {
         path: "/auth/login",
         description: "Log in, returns a JWT",
       },
+      {
+        method: "GET",
+        path: "/users/:id",
+        description: "Get a user",
+      },
+      {
+        method: "PATCH",
+        path: "/users/:id/preferences",
+        description: "Replace a user's preferences",
+      },
+      {
+        method: "PATCH",
+        path: "/users/:id/preferences/add",
+        description: "Add one preference",
+      },
     ],
   });
 });
