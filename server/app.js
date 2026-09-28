@@ -7,6 +7,7 @@ const reviewsRouter = require("./routers/reviews");
 const amenitiesRouter = require("./routers/amenities");
 const venueAmenitiesRouter = require("./routers/venueAmenities");
 const geoapifyRouter = require("./routers/geoapify");
+const usersRouter = require("./routers/users");
 
 const app = express();
 app.use(cors());
@@ -93,6 +94,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/venues", venuesRouter);
+app.use("/users", usersRouter);
 app.use("/venues/:geoapifyPlaceId/reviews", reviewsRouter);
 app.use("/amenities", amenitiesRouter);
 app.use("/venueAmenities", venueAmenitiesRouter);
