@@ -5,6 +5,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   role VARCHAR(20) NOT NULL DEFAULT 'parent',
+  preferences TEXT[] NOT NULL DEFAULT '{}',
   created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
