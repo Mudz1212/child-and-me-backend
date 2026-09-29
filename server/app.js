@@ -88,6 +88,21 @@ app.get("/", (req, res) => {
         path: "/users/:id/preferences/add",
         description: "Add one preference",
       },
+      {
+        method: "GET",
+        path: "/users/:id/favourites",
+        description: "List a user's favourited venues",
+      },
+      {
+        method: "POST",
+        path: "/users/:id/favourites/:geoapifyPlaceId",
+        description: "Favourite a venue by its geoapify_place_id",
+      },
+      {
+        method: "DELETE",
+        path: "/users/:id/favourites/:geoapifyPlaceId",
+        description: "Unfavourite a venue by its geoapify_place_id",
+      },
     ],
   });
 });
