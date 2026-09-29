@@ -95,6 +95,12 @@ CREATE TABLE venue_views (
     viewed_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE user_favourites (
+  user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, venue_id)
+);
+
 INSERT INTO users (email, password_hash, role) VALUES
   ('owner@example.com', 'placeholder-hash', 'venue_owner'),
   ('parent1@example.com', 'placeholder-hash', 'parent'),
