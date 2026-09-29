@@ -67,7 +67,8 @@ async function patch(req, res) {
     if (err.message === "No valid fields provided to update") {
       return res.status(400).json({ error: err.message });
     }
-    throw err;
+    console.error("Failed to patch venue:", err);
+    res.status(500).json({ error: "Failed to patch venue" });
   }
 }
 
