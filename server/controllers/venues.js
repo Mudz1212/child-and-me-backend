@@ -12,6 +12,31 @@ async function show(req, res) {
   res.json(venue);
 }
 
+async function showMine(req, res) {
+  try {
+    const ownerId = req.user.id;
+
+    const venue = await Venue.findByOwnerId(
+      ownerId
+    );
+
+    if (!venue) {
+      return res.status(404).json({
+        error: "No venue found for this owner",
+      });
+    }
+
+    res.json(venue);
+  } catch (error) {
+    console.error(
+      "Failed to get owner's venue:",
+      error
+    );
+
+    res.status(500).json({
+      error: "Failed to get owner's venue",
+    });
+  }
 // ← new function
 async function showByGeoapifyId(req, res) {
   const venue = await Geoapify.findByPlaceId(req.params.geoapifyPlaceId);
@@ -72,12 +97,5 @@ async function patch(req, res) {
   }
 }
 
-module.exports = {
-  index,
-  show,
-  showByGeoapifyId,
-  create,
-  update,
-  patch,
-  importVenues,
-};
+module.exports = { index, show, showMine, showByGeoapifyId, create, update, importVenues, patch };
+
