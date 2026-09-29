@@ -1,7 +1,7 @@
 import json
 import random
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -27,24 +27,14 @@ CHARTS_DIR.mkdir(parents=True, exist_ok=True)
 sns.set_theme(style="whitegrid")
 
 
-# ============================================================
-# AMENITIES
-# ============================================================
-# These match the amenities in our database.
-#
-# demand_rate is SIMULATED.
-# It represents the proportion of relevant searches that
-# requested that amenity.
-#
-# We use it to create an illustrative "what if" projection.
-# ============================================================
+
 
 AMENITIES = [
     {
         "amenity_id": 1,
         "name": "Accessible entrance",
         "searches": 34,
-        "demand_rate": 0.12,
+        "demand_rate": 0.10,
     },
     {
         "amenity_id": 2,
@@ -56,49 +46,49 @@ AMENITIES = [
         "amenity_id": 3,
         "name": "Prams allowed",
         "searches": 72,
-        "demand_rate": 0.25,
+        "demand_rate": 0.38,
     },
     {
         "amenity_id": 4,
         "name": "Pram storage",
         "searches": 43,
-        "demand_rate": 0.15,
+        "demand_rate": 0.14,
     },
     {
         "amenity_id": 5,
         "name": "Changing facilities",
         "searches": 78,
-        "demand_rate": 0.27,
+        "demand_rate": 0.48,
     },
     {
         "amenity_id": 6,
         "name": "Table reservation",
         "searches": 29,
-        "demand_rate": 0.10,
+        "demand_rate": 0.07,
     },
     {
         "amenity_id": 7,
         "name": "Breastfeeding friendly",
         "searches": 58,
-        "demand_rate": 0.20,
+        "demand_rate": 0.27,
     },
     {
         "amenity_id": 8,
         "name": "Children's activities",
         "searches": 63,
-        "demand_rate": 0.22,
+        "demand_rate": 0.33,
     },
     {
         "amenity_id": 9,
         "name": "Parking",
         "searches": 46,
-        "demand_rate": 0.16,
+        "demand_rate": 0.21,
     },
     {
         "amenity_id": 10,
         "name": "High chairs",
         "searches": 66,
-        "demand_rate": 0.23,
+        "demand_rate": 0.42,
     },
 ]
 
@@ -202,6 +192,8 @@ sns.lineplot(
     x="date",
     y="views",
     marker="o",
+    color="blue",
+    linewidth=2,
 )
 
 plt.title("Venue views over time")
@@ -219,22 +211,7 @@ save_chart(
 # ============================================================
 # CREATE PROJECTION GRAPH FOR EACH AMENITY
 # ============================================================
-#
-# Projection:
-#
-# estimated views =
-# current views * (1 + demand rate)
-#
-# Example:
-#
-# current views = 10
-# demand rate = 0.20
-#
-# estimated views = 12
-#
-# IMPORTANT:
-# This is an illustrative scenario, not a causal forecast.
-# ============================================================
+
 
 opportunities = []
 
@@ -247,14 +224,38 @@ for amenity in AMENITIES:
 
     projection_df = views_df.copy()
 
-    projection_df["estimated_views"] = (
-        projection_df["views"]
-        * (1 + demand_rate)
-    ).round().astype(int)
+    # --------------------------------------------------------
+    # Amenity-specific simulated variation
+    # --------------------------------------------------------
 
-    # ----------------------------------------
+    projection_noise = np.random.default_rng(
+        100 + amenity_id
+    ).normal(
+        loc=0,
+        scale=0.6 + (demand_rate * 2),
+        size=NUMBER_OF_DAYS,
+    )
+
+    # --------------------------------------------------------
+    # Simulated projected views
+    # --------------------------------------------------------
+
+    projection_df["estimated_views"] = (
+        projection_df["views"] * (1 + demand_rate)
+        + projection_noise
+    )
+
+
+    projection_df["estimated_views"] = np.maximum(
+        np.round(
+            projection_df["estimated_views"]
+        ),
+        projection_df["views"],
+    ).astype(int)
+
+    # --------------------------------------------------------
     # Make graph
-    # ----------------------------------------
+    # --------------------------------------------------------
 
     plt.figure(figsize=(11, 5))
 
@@ -264,6 +265,8 @@ for amenity in AMENITIES:
         y="views",
         marker="o",
         label="Current views",
+        color="blue",
+        linewidth=2,
     )
 
     sns.lineplot(
@@ -272,7 +275,9 @@ for amenity in AMENITIES:
         y="estimated_views",
         marker="o",
         linestyle="--",
-        label=f"Estimated with {amenity_name}",
+        label=f"Projected with {amenity_name}",
+        color="red",
+        linewidth=2,
     )
 
     plt.title(
@@ -289,9 +294,7 @@ for amenity in AMENITIES:
         0.5,
         -0.04,
         (
-            f"Illustrative scenario based on "
-            f"{demand_rate:.0%} simulated amenity demand. "
-            f"This is an estimate, not a guaranteed increase."
+            f"This graph shows an estimate, not a guaranteed increase."
         ),
         ha="center",
         fontsize=9,
@@ -304,9 +307,9 @@ for amenity in AMENITIES:
 
     save_chart(filename)
 
-    # ----------------------------------------
+    # --------------------------------------------------------
     # Save info for frontend JSON
-    # ----------------------------------------
+    # --------------------------------------------------------
 
     opportunities.append(
         {
@@ -543,22 +546,19 @@ save_chart(
 # ============================================================
 # BUSINESS ANALYTICS JSON
 # ============================================================
-#
-# Notice:
-#
+
 # There is NO venue ID or venue name here.
-#
+
 # That's deliberate.
-#
-# The real venue will eventually come from:
-#
+
+# The real venue comes from:
+
 # GET /venues/mine
-#
-# This JSON contains only our simulated analytics.
-# ============================================================
+
 
 analytics_data = {
     "generated_at": datetime.now().isoformat(),
+
     "is_demo_data": True,
 
     "views": int(
@@ -588,11 +588,9 @@ analytics_data = {
     ),
 
     "projection_method": (
-        "Estimated views are calculated by "
-        "multiplying simulated current views by "
-        "1 + the simulated amenity demand rate. "
-        "These are illustrative scenarios and "
-        "not guaranteed increases."
+        "Projected views use amenity demand rates "
+        "plus small amenity specific variation. "
+    
     ),
 
     "opportunities": opportunities,

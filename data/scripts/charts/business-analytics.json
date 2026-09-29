@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T12:10:21.393172",
+  "generated_at": "2026-09-29T15:06:19.127142",
   "is_demo_data": true,
   "views": 550,
   "relevant_searches": 1265,
@@ -7,13 +7,13 @@
   "amenity_demand_chart": "/analytics/amenity-demand.png",
   "search_heatmap_chart": "/analytics/search-heatmap.png",
   "search_demand_chart": "/analytics/search-demand.png",
-  "projection_method": "Estimated views are calculated by multiplying simulated current views by 1 + the simulated amenity demand rate. These are illustrative scenarios and not guaranteed increases.",
+  "projection_method": "Projected views use amenity demand rates plus small amenity specific variation. ",
   "opportunities": [
     {
       "amenity_id": 1,
       "name": "Accessible entrance",
       "searches": 34,
-      "demand_rate": 0.12,
+      "demand_rate": 0.1,
       "projection_chart": "/analytics/projection-accessible-entrance.png"
     },
     {
@@ -27,56 +27,56 @@
       "amenity_id": 3,
       "name": "Prams allowed",
       "searches": 72,
-      "demand_rate": 0.25,
+      "demand_rate": 0.38,
       "projection_chart": "/analytics/projection-prams-allowed.png"
     },
     {
       "amenity_id": 4,
       "name": "Pram storage",
       "searches": 43,
-      "demand_rate": 0.15,
+      "demand_rate": 0.14,
       "projection_chart": "/analytics/projection-pram-storage.png"
     },
     {
       "amenity_id": 5,
       "name": "Changing facilities",
       "searches": 78,
-      "demand_rate": 0.27,
+      "demand_rate": 0.48,
       "projection_chart": "/analytics/projection-changing-facilities.png"
     },
     {
       "amenity_id": 6,
       "name": "Table reservation",
       "searches": 29,
-      "demand_rate": 0.1,
+      "demand_rate": 0.07,
       "projection_chart": "/analytics/projection-table-reservation.png"
     },
     {
       "amenity_id": 7,
       "name": "Breastfeeding friendly",
       "searches": 58,
-      "demand_rate": 0.2,
+      "demand_rate": 0.27,
       "projection_chart": "/analytics/projection-breastfeeding-friendly.png"
     },
     {
       "amenity_id": 8,
       "name": "Children's activities",
       "searches": 63,
-      "demand_rate": 0.22,
+      "demand_rate": 0.33,
       "projection_chart": "/analytics/projection-children-s-activities.png"
     },
     {
       "amenity_id": 9,
       "name": "Parking",
       "searches": 46,
-      "demand_rate": 0.16,
+      "demand_rate": 0.21,
       "projection_chart": "/analytics/projection-parking.png"
     },
     {
       "amenity_id": 10,
       "name": "High chairs",
       "searches": 66,
-      "demand_rate": 0.23,
+      "demand_rate": 0.42,
       "projection_chart": "/analytics/projection-high-chairs.png"
     }
   ]
