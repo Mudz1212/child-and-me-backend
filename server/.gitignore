@@ -1,1 +1,2 @@
 coverage/
+server/__tests__/integration_testing/Venues.int.test.js

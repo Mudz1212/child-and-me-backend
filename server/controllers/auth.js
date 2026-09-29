@@ -10,9 +10,18 @@ async function register(req, res) {
     return res.status(400).json({ error: "email and password are required" });
   if (role !== undefined && !SELF_SERVICE_ROLES.includes(role))
     return res.status(400).json({ error: "Invalid role" });
-  const passwordHash = await bcrypt.hash(password, 10);
-  const user = await User.create({ email, passwordHash, role });
-  res.status(201).json(user);
+
+  try {
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await User.create({ email, passwordHash, role });
+    res.status(201).json(user);
+  } catch (err) {
+    if (err.code === "23505") {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+    console.error("Failed to register user:", err);
+    res.status(500).json({ error: "Failed to register user" });
+  }
 }
 
 async function login(req, res) {
