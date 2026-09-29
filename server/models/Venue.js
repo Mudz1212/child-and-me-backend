@@ -36,6 +36,35 @@ class Venue {
     return result.rows[0];
   }
 
+  static async findByOwnerId(ownerId) {
+    const result = await db.query(
+      `
+      SELECT
+        v.*,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', a.id,
+              'name', a.name
+            )
+          ) FILTER (WHERE a.id IS NOT NULL),
+          '[]'
+        ) AS amenities
+      FROM venues v
+      LEFT JOIN venue_amenities va
+        ON va.venue_id = v.id
+      LEFT JOIN amenities a
+        ON a.id = va.amenity_id
+      WHERE v.owner_id = $1
+      GROUP BY v.id
+      LIMIT 1
+      `,
+      [ownerId]
+    );
+
+    return result.rows[0];
+  }
+
   static async create({
     name,
     description,
