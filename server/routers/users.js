@@ -1,5 +1,6 @@
 const express = require("express");
 const controller = require("../controllers/users");
+const favouritesController = require("../controllers/favourites");
 const router = express.Router();
 
 router.get("/:id", controller.show);
