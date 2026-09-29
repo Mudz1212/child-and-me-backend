@@ -11,6 +11,33 @@ async function show(req, res) {
   res.json(venue);
 }
 
+async function showMine(req, res) {
+  try {
+    const ownerId = req.user.id;
+
+    const venue = await Venue.findByOwnerId(
+      ownerId
+    );
+
+    if (!venue) {
+      return res.status(404).json({
+        error: "No venue found for this owner",
+      });
+    }
+
+    res.json(venue);
+  } catch (error) {
+    console.error(
+      "Failed to get owner's venue:",
+      error
+    );
+
+    res.status(500).json({
+      error: "Failed to get owner's venue",
+    });
+  }
+}
+
 async function create(req, res) {
   const venue = await Venue.create({ ...req.body, ownerId: req.user.id });
   res.status(201).json(venue);
@@ -63,4 +90,4 @@ async function patch(req, res) {
   }
 }
 
-module.exports = { index, show, create, update, importVenues, patch };
+module.exports = { index, show, showMine, create, update, importVenues, patch };
