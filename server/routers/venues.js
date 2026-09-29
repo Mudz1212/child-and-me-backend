@@ -6,6 +6,7 @@ const router = express.Router();
 router.get("/", controller.index);
 router.post("/import", controller.importVenues);
 router.get("/mine", requireAuth, requireRole("venue_owner"), controller.showMine);
+router.get("/geoapify/:geoapifyPlaceId", controller.showByGeoapifyId);
 router.get("/:id", controller.show);
 router.post("/", requireAuth, controller.create);
 router.put("/:id", requireAuth, controller.update);

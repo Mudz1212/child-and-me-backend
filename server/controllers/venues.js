@@ -1,4 +1,5 @@
 const Venue = require("../models/Venue");
+const Geoapify = require("../models/Geoapify_id"); // ← new
 
 async function index(req, res) {
   const { amenity, age, postcode } = req.query;
@@ -36,6 +37,11 @@ async function showMine(req, res) {
       error: "Failed to get owner's venue",
     });
   }
+// ← new function
+async function showByGeoapifyId(req, res) {
+  const venue = await Geoapify.findByPlaceId(req.params.geoapifyPlaceId);
+  if (!venue) return res.status(404).json({ error: "Venue not found" });
+  res.json(venue);
 }
 
 async function create(req, res) {
@@ -86,8 +92,10 @@ async function patch(req, res) {
     if (err.message === "No valid fields provided to update") {
       return res.status(400).json({ error: err.message });
     }
-    throw err;
+    console.error("Failed to patch venue:", err);
+    res.status(500).json({ error: "Failed to patch venue" });
   }
 }
 
-module.exports = { index, show, showMine, create, update, importVenues, patch };
+module.exports = { index, show, showMine, showByGeoapifyId, create, update, importVenues, patch };
+

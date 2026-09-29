@@ -5,6 +5,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   role VARCHAR(20) NOT NULL DEFAULT 'parent',
+  preferences TEXT[] NOT NULL DEFAULT '{}',
   created_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
@@ -92,6 +93,12 @@ CREATE TABLE venue_views (
     venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
     user_id INT REFERENCES users(id) ON DELETE SET NULL,
     viewed_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE user_favourites (
+  user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  venue_id INT NOT NULL REFERENCES venues(id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, venue_id)
 );
 
 INSERT INTO users (email, password_hash, role) VALUES

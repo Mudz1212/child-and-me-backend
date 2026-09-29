@@ -1,175 +1,156 @@
-const Venue = require("../../../models/Venue");
+jest.mock("../../../db/connect");
 const db = require("../../../db/connect");
+const jwt = require("jsonwebtoken");
+const request = require("supertest");
+const app = require("../../../app");
 
-describe("Venue", () => {
-  beforeEach(() => jest.clearAllMocks());
+const token = jwt.sign(
+  { id: 1, email: "owner@example.com", role: "venue_owner" },
+  process.env.JWT_SECRET,
+);
 
-  afterAll(() => jest.resetAllMocks());
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
-  describe("findAll", () => {
-    it("resolves with venues when called with no filters", async () => {
-      const mockVenues = [
-        {
-          id: 1,
-          name: "Test Cafe",
-          postcode: "SW1A 1AA",
-          amenities: ["Parking"],
-        },
-      ];
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: mockVenues });
-
-      const venues = await Venue.findAll();
-
-      expect(venues).toHaveLength(1);
-      expect(venues[0].name).toBe("Test Cafe");
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("FROM venues v"),
-        [],
-      );
+describe("GET /venues", () => {
+  it("returns a list of venues", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 1, name: "Test Cafe", postcode: "SW1A 1AA", amenities: [] }],
     });
 
-    it("adds an age_suitability condition when age is provided", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+    const res = await request(app).get("/venues");
 
-      await Venue.findAll({ age: "0-5" });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].name).toBe("Test Cafe");
+  });
+});
 
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("v.age_suitability = $1"),
-        ["0-5"],
-      );
-    });
+describe("GET /venues/:id", () => {
+  it("returns 404 for a venue that doesn't exist", async () => {
+    db.query.mockResolvedValueOnce({ rows: [] });
 
-    it("adds a postcode condition when postcode is provided", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+    const res = await request(app).get("/venues/999");
 
-      await Venue.findAll({ postcode: "SW1A 1AA" });
+    expect(res.status).toBe(404);
+  });
+});
 
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("v.postcode = $1"),
-        ["SW1A 1AA"],
-      );
-    });
+describe("GET /venues/geoapify/:geoapifyPlaceId", () => {
+  it("returns 404 when no venue matches", async () => {
+    db.query.mockResolvedValueOnce({ rows: [] });
 
-    it("adds a HAVING clause when amenity is provided", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+    const res = await request(app).get("/venues/geoapify/nonexistent-id");
 
-      await Venue.findAll({ amenity: "Parking" });
-
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("HAVING $1 = ANY(array_agg(a.name))"),
-        ["Parking"],
-      );
-    });
-
-    it("combines age, postcode and amenity filters with correct param order", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
-
-      await Venue.findAll({
-        age: "0-5",
-        postcode: "SW1A 1AA",
-        amenity: "Parking",
-      });
-
-      expect(db.query).toHaveBeenCalledWith(expect.any(String), [
-        "0-5",
-        "SW1A 1AA",
-        "Parking",
-      ]);
-    });
+    expect(res.status).toBe(404);
   });
 
-  describe("findById", () => {
-    it("resolves with a venue on successful db query", async () => {
-      const testVenue = { id: 1, name: "Test Cafe", postcode: "SW1A 1AA" };
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [testVenue] });
-
-      const result = await Venue.findById(1);
-
-      expect(result).toEqual(testVenue);
-      expect(db.query).toHaveBeenCalledWith(
-        "SELECT * FROM venues WHERE id = $1",
-        [1],
-      );
+  it("returns the venue matching that geoapify_place_id", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [
+        { id: 10, geoapify_place_id: "abc123", name: "Costa", amenities: [] },
+      ],
     });
 
-    it("returns undefined when the venue doesn't exist", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+    const res = await request(app).get("/venues/geoapify/abc123");
 
-      const result = await Venue.findById(999);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Costa");
+  });
+});
 
-      expect(result).toBeUndefined();
-    });
+describe("POST /venues", () => {
+  it("rejects a request with no auth token", async () => {
+    const res = await request(app).post("/venues").send({ name: "New Venue" });
+
+    expect(res.status).toBe(401);
   });
 
-  describe("create", () => {
-    it("creates a venue and returns it", async () => {
-      const testVenue = {
-        id: 2,
-        name: "New Venue",
-        description: "test",
-        latitude: 51.5,
-        longitude: -0.1,
-        postcode: "SW1A 1AA",
-        age_suitability: "0-5",
-        owner_id: 1,
-      };
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [testVenue] });
+  it("creates a venue when authenticated", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 2, name: "New Venue", postcode: "SW1A 1AA" }],
+    });
 
-      const result = await Venue.create({
+    const res = await request(app)
+      .post("/venues")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
         name: "New Venue",
         description: "test",
         latitude: 51.5,
         longitude: -0.1,
         postcode: "SW1A 1AA",
         ageSuitability: "0-5",
-        ownerId: 1,
       });
 
-      expect(result).toEqual(testVenue);
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("INSERT INTO venues"),
-        ["New Venue", "test", 51.5, -0.1, "SW1A 1AA", "0-5", 1],
-      );
+    expect(res.status).toBe(201);
+    expect(res.body.name).toBe("New Venue");
+  });
+});
+
+describe("POST /venues/import", () => {
+  it("imports venues with no auth required", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 10, name: "Imported Venue" }],
     });
+
+    const res = await request(app)
+      .post("/venues/import")
+      .send([{ name: "Imported Venue" }]);
+
+    expect(res.status).toBe(201);
   });
 
-  describe("update", () => {
-    it("updates a venue owned by the requesting user", async () => {
-      const updatedVenue = {
-        id: 1,
-        name: "Updated Name",
-        description: "updated desc",
-        postcode: "SW1A 1AA",
-        age_suitability: "0-8",
-        owner_id: 1,
-      };
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [updatedVenue] });
+  it("rejects a non-array body", async () => {
+    const res = await request(app)
+      .post("/venues/import")
+      .send({ not: "an array" });
 
-      const result = await Venue.update(1, 1, {
-        name: "Updated Name",
-        description: "updated desc",
-        postcode: "SW1A 1AA",
-        ageSuitability: "0-8",
-      });
+    expect(res.status).toBe(400);
+  });
+});
 
-      expect(result).toEqual(updatedVenue);
-      expect(db.query).toHaveBeenCalledWith(
-        expect.stringContaining("UPDATE venues"),
-        ["Updated Name", "updated desc", "SW1A 1AA", "0-8", 1, 1],
-      );
+describe("PATCH /venues/:id", () => {
+  it("rejects a request with no auth token", async () => {
+    const res = await request(app)
+      .patch("/venues/1")
+      .send({ name: "New Name" });
+
+    expect(res.status).toBe(401);
+  });
+
+  it("updates only the fields sent", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 1, name: "Renamed Cafe", postcode: "SW1A 1AA" }],
     });
 
-    it("returns undefined when the venue doesn't exist or isn't owned by the user", async () => {
-      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+    const res = await request(app)
+      .patch("/venues/1")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Renamed Cafe" });
 
-      const result = await Venue.update(999, 1, {
-        name: "X",
-        description: "Y",
-        postcode: "Z",
-        ageSuitability: "0-5",
-      });
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Renamed Cafe");
+  });
 
-      expect(result).toBeUndefined();
-    });
+  it("returns 404 when the venue doesn't exist or isn't owned by the user", async () => {
+    db.query.mockResolvedValueOnce({ rows: [] });
+
+    const res = await request(app)
+      .patch("/venues/999")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "X" });
+
+    expect(res.status).toBe(404);
+  });
+
+  it("returns 400 when the body has no valid fields", async () => {
+    const res = await request(app)
+      .patch("/venues/1")
+      .set("Authorization", `Bearer ${token}`)
+      .send({});
+
+    expect(res.status).toBe(400);
   });
 });

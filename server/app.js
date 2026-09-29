@@ -7,6 +7,7 @@ const reviewsRouter = require("./routers/reviews");
 const amenitiesRouter = require("./routers/amenities");
 const venueAmenitiesRouter = require("./routers/venueAmenities");
 const geoapifyRouter = require("./routers/geoapify");
+const usersRouter = require("./routers/users");
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,11 @@ app.get("/", (req, res) => {
       },
       { method: "GET", path: "/venues/:id", description: "Get one venue" },
       {
+        method: "GET",
+        path: "/venues/geoapify/:geoapifyPlaceId",
+        description: "Get one venue by its geoapify_place_id",
+      },
+      {
         method: "POST",
         path: "/venues",
         description: "Create a venue (auth required)",
@@ -34,12 +40,12 @@ app.get("/", (req, res) => {
       },
       {
         method: "GET",
-        path: "/venues/:venueId/reviews",
-        description: "List reviews for a venue",
+        path: "/venues/:geoapifyPlaceId/reviews",
+        description: "List reviews for a venue, looked up by geoapify_place_id",
       },
       {
         method: "POST",
-        path: "/venues/:venueId/reviews",
+        path: "/venues/:geoapifyPlaceId/reviews",
         description: "Add a review (auth required)",
       },
       {
@@ -67,13 +73,44 @@ app.get("/", (req, res) => {
         path: "/auth/login",
         description: "Log in, returns a JWT",
       },
+      {
+        method: "GET",
+        path: "/users/:id",
+        description: "Get a user",
+      },
+      {
+        method: "PATCH",
+        path: "/users/:id/preferences",
+        description: "Replace a user's preferences",
+      },
+      {
+        method: "PATCH",
+        path: "/users/:id/preferences/add",
+        description: "Add one preference",
+      },
+      {
+        method: "GET",
+        path: "/users/:id/favourites",
+        description: "List a user's favourited venues",
+      },
+      {
+        method: "POST",
+        path: "/users/:id/favourites/:geoapifyPlaceId",
+        description: "Favourite a venue by its geoapify_place_id",
+      },
+      {
+        method: "DELETE",
+        path: "/users/:id/favourites/:geoapifyPlaceId",
+        description: "Unfavourite a venue by its geoapify_place_id",
+      },
     ],
   });
 });
 
 app.use("/auth", authRouter);
 app.use("/venues", venuesRouter);
-app.use("/venues/:venueId/reviews", reviewsRouter);
+app.use("/users", usersRouter);
+app.use("/venues/:geoapifyPlaceId/reviews", reviewsRouter);
 app.use("/amenities", amenitiesRouter);
 app.use("/venueAmenities", venueAmenitiesRouter);
 app.use("/geoapify", geoapifyRouter);

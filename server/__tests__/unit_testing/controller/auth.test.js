@@ -33,13 +33,11 @@ describe("POST /auth/register", () => {
       rows: [{ id: 2, email: "owner@example.com", role: "venue_owner" }],
     });
 
-    const res = await request(app)
-      .post("/auth/register")
-      .send({
-        email: "owner@example.com",
-        password: "password123",
-        role: "venue_owner",
-      });
+    const res = await request(app).post("/auth/register").send({
+      email: "owner@example.com",
+      password: "password123",
+      role: "venue_owner",
+    });
 
     expect(res.status).toBe(201);
     expect(res.body.role).toBe("venue_owner");
@@ -119,5 +117,6 @@ describe("POST /auth/login", () => {
 
     expect(res.status).toBe(200);
     expect(res.body.token).toBeDefined();
+    expect(res.body.id).toBe(1);
   });
 });

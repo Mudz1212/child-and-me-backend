@@ -37,6 +37,29 @@ describe("GET /venues/:id", () => {
   });
 });
 
+describe("GET /venues/geoapify/:geoapifyPlaceId", () => {
+  it("returns 404 when no venue matches", async () => {
+    db.query.mockResolvedValueOnce({ rows: [] });
+
+    const res = await request(app).get("/venues/geoapify/nonexistent-id");
+
+    expect(res.status).toBe(404);
+  });
+
+  it("returns the venue matching that geoapify_place_id", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [
+        { id: 10, geoapify_place_id: "abc123", name: "Costa", amenities: [] },
+      ],
+    });
+
+    const res = await request(app).get("/venues/geoapify/abc123");
+
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Costa");
+  });
+});
+
 describe("POST /venues", () => {
   it("rejects a request with no auth token", async () => {
     const res = await request(app).post("/venues").send({ name: "New Venue" });
