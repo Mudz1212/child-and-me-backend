@@ -32,4 +32,28 @@ describe("Amenity", () => {
       expect(amenities).toEqual([]);
     });
   });
+
+  describe("create", () => {
+    it("creates a new amenity", async () => {
+      const testAmenity = { id: 3, name: "Baby changing" };
+      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [testAmenity] });
+
+      const result = await Amenity.create("Baby changing");
+
+      expect(result).toEqual(testAmenity);
+      expect(db.query).toHaveBeenCalledWith(
+        expect.stringContaining("ON CONFLICT (name) DO UPDATE"),
+        ["Baby changing"],
+      );
+    });
+
+    it("does not error when the name already exists", async () => {
+      const existing = { id: 3, name: "Parking" };
+      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [existing] });
+
+      const result = await Amenity.create("Parking");
+
+      expect(result).toEqual(existing);
+    });
+  });
 });
