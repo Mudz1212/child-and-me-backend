@@ -25,6 +25,14 @@ class Review {
     );
     return result.rows;
   }
+
+  static async delete(id, userId) {
+    const result = await db.query(
+      "DELETE FROM reviews WHERE id = $1 AND user_id = $2 RETURNING *",
+      [id, userId],
+    );
+    return result.rows[0];
+  }
 }
 
 module.exports = Review;
