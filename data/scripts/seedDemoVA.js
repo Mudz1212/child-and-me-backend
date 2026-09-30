@@ -1,17 +1,14 @@
 require("dotenv").config();
 
-const API_URL = "http://4.223.159.135";
+const API_URL = "https://child-and-me-server.azurewebsites.net";
 
 const MIN_AMENITIES = 1;
 const MAX_AMENITIES = 10;
 
-
 const START_VENUE_ID = 1;
 
 function getRandomItems(items, amount) {
-  return [...items]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, amount);
+  return [...items].sort(() => Math.random() - 0.5).slice(0, amount);
 }
 
 function randomNumber(min, max) {
@@ -23,9 +20,7 @@ async function seedDemoVenueAmenities() {
     const venuesResponse = await fetch(`${API_URL}/venues`);
 
     if (!venuesResponse.ok) {
-      throw new Error(
-        `Failed to load venues: ${venuesResponse.status}`
-      );
+      throw new Error(`Failed to load venues: ${venuesResponse.status}`);
     }
 
     const venues = await venuesResponse.json();
@@ -33,16 +28,12 @@ async function seedDemoVenueAmenities() {
     const amenitiesResponse = await fetch(`${API_URL}/amenities`);
 
     if (!amenitiesResponse.ok) {
-      throw new Error(
-        `Failed to load amenities: ${amenitiesResponse.status}`
-      );
+      throw new Error(`Failed to load amenities: ${amenitiesResponse.status}`);
     }
 
     const amenities = await amenitiesResponse.json();
 
-    const demoVenues = venues.filter(
-      (venue) => venue.id >= START_VENUE_ID
-    );
+    const demoVenues = venues.filter((venue) => venue.id >= START_VENUE_ID);
 
     console.log(`Venues available: ${venues.length}`);
     console.log(`Demo venues to process: ${demoVenues.length}`);
@@ -54,30 +45,24 @@ async function seedDemoVenueAmenities() {
     for (const venue of demoVenues) {
       const amount = randomNumber(
         MIN_AMENITIES,
-        Math.min(MAX_AMENITIES, amenities.length)
+        Math.min(MAX_AMENITIES, amenities.length),
       );
 
-      const selectedAmenities = getRandomItems(
-        amenities,
-        amount
-      );
+      const selectedAmenities = getRandomItems(amenities, amount);
 
       console.log(`\n${venue.name}`);
 
       for (const amenity of selectedAmenities) {
-        const response = await fetch(
-          `${API_URL}/venueAmenities`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              venue_id: venue.id,
-              amenity_id: amenity.id,
-            }),
-          }
-        );
+        const response = await fetch(`${API_URL}/venueAmenities`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            venue_id: venue.id,
+            amenity_id: amenity.id,
+          }),
+        });
 
         if (response.ok) {
           console.log(` ${amenity.name}`);

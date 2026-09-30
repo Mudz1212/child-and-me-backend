@@ -10,15 +10,18 @@ async function importVenues() {
   try {
     console.log(`Sending venues...`);
 
-    const response = await fetch("http://4.223.159.135/venues/import", {
-      method: "POST",
+    const response = await fetch(
+      "https://child-and-me-server.azurewebsites.net/venues/import",
+      {
+        method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(venues),
       },
-
-      body: JSON.stringify(venues),
-    });
+    );
 
     const data = await response.json();
 
