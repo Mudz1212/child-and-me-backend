@@ -65,7 +65,7 @@ pipeline {
             }
         }
 
-        stage('Write Terraform Secrets') {
+        stage('Terraform Plan') {
             steps {
                 withCredentials([
                     string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
@@ -77,17 +77,12 @@ pipeline {
 jwt_secret  = "$JWT_SECRET"
 db_password = "$DB_PASSWORD"
 EOF
+                            pwd
+                            ls -la secrets.auto.tfvars
+                            terraform plan -out=tfplan
+                            terraform show -no-color tfplan > tfplan.txt
                         '''
                     }
-                }
-            }
-        }
-
-        stage('Terraform Plan') {
-            steps {
-                dir('terraform/infrastructure') {
-                    sh 'terraform plan -out=tfplan'
-                    sh 'terraform show -no-color tfplan > tfplan.txt'
                 }
                 archiveArtifacts artifacts: 'terraform/infrastructure/tfplan.txt', fingerprint: true
             }
@@ -100,16 +95,20 @@ EOF
                         input message: 'Apply this plan?', ok: 'Apply'
                     }
                 }
-                dir('terraform/infrastructure') {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
-            }
-        }
-
-        stage('Clean Up Terraform Secrets') {
-            steps {
-                dir('terraform/infrastructure') {
-                    sh 'rm -f secrets.auto.tfvars'
+                withCredentials([
+                    string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
+                    string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
+                ]) {
+                    dir('terraform/infrastructure') {
+                        sh '''
+                            cat > secrets.auto.tfvars << EOF
+jwt_secret  = "$JWT_SECRET"
+db_password = "$DB_PASSWORD"
+EOF
+                            terraform apply -auto-approve tfplan
+                            rm -f secrets.auto.tfvars
+                        '''
+                    }
                 }
             }
         }
