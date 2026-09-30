@@ -77,6 +77,42 @@ describe("POST /venues/:geoapifyPlaceId/reviews", () => {
     expect(res.status).toBe(401);
   });
 
+  it("accepts a decimal rating", async () => {
+    db.query
+      .mockResolvedValueOnce({ rows: [{ id: 5, geoapify_place_id: placeId }] })
+      .mockResolvedValueOnce({
+        rows: [
+          { id: 1, venue_id: 5, user_id: 1, rating: 4.5, comment: "Lovely" },
+        ],
+      });
+
+    const res = await request(app)
+      .post(`/venues/${placeId}/reviews`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ rating: 4.5, comment: "Lovely" });
+
+    expect(res.status).toBe(201);
+    expect(res.body.rating).toBe(4.5);
+  });
+
+  it("rejects a rating above 5", async () => {
+    const res = await request(app)
+      .post(`/venues/${placeId}/reviews`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ rating: 5.5, comment: "Too high" });
+
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects a non-numeric rating", async () => {
+    const res = await request(app)
+      .post(`/venues/${placeId}/reviews`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ rating: "not a number", comment: "Bad input" });
+
+    expect(res.status).toBe(400);
+  });
+
   it("returns 404 when the venue doesn't exist", async () => {
     db.query.mockResolvedValueOnce({ rows: [] });
 
