@@ -17,3 +17,5 @@ tfplan.txt
 credentials.md
 package-lock.json
 coverage/
+
+secrets.auto.tfvars

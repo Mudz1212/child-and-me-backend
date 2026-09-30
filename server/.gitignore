@@ -1,2 +1,4 @@
 coverage/
 server/__tests__/integration_testing/Venues.int.test.js
+secrets.auto.tfvars
+secrets.auto.tfvars
