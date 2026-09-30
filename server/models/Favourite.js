@@ -36,10 +36,20 @@ class Favourite {
 
   static async findByUser(userId) {
     const result = await db.query(
-      `SELECT v.*
+      `SELECT
+        v.*,
+        COALESCE(
+          json_agg(
+            json_build_object('id', a.id, 'name', a.name)
+          ) FILTER (WHERE a.id IS NOT NULL),
+          '[]'
+        ) AS amenities
        FROM user_favourites uf
        JOIN venues v ON v.id = uf.venue_id
+       LEFT JOIN venue_amenities va ON va.venue_id = v.id
+       LEFT JOIN amenities a ON a.id = va.amenity_id
        WHERE uf.user_id = $1
+       GROUP BY v.id
        ORDER BY v.id`,
       [userId],
     );
