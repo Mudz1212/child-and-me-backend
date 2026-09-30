@@ -65,6 +65,24 @@ pipeline {
             }
         }
 
+        stage('Write Terraform Secrets') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
+                    string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
+                ]) {
+                    dir('terraform/infrastructure') {
+                        sh '''
+                            cat > secrets.auto.tfvars << EOF
+jwt_secret  = "$JWT_SECRET"
+db_password = "$DB_PASSWORD"
+EOF
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('Terraform Plan') {
             steps {
                 dir('terraform/infrastructure') {
@@ -82,20 +100,16 @@ pipeline {
                         input message: 'Apply this plan?', ok: 'Apply'
                     }
                 }
-                withCredentials([
-                    string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
-                    string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
-                ]) {
-                    dir('terraform/infrastructure') {
-                        sh '''
-                            cat > secrets.auto.tfvars << EOF
-jwt_secret  = "$JWT_SECRET"
-db_password = "$DB_PASSWORD"
-EOF
-                            terraform apply -auto-approve tfplan
-                            rm -f secrets.auto.tfvars
-                        '''
-                    }
+                dir('terraform/infrastructure') {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
+        }
+
+        stage('Clean Up Terraform Secrets') {
+            steps {
+                dir('terraform/infrastructure') {
+                    sh 'rm -f secrets.auto.tfvars'
                 }
             }
         }
