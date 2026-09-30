@@ -78,8 +78,9 @@ resource "azurerm_linux_web_app" "server" {
     DB_PASSWORD = var.db_password
     DB_NAME     = var.db_name
     DB_PORT     = "5432"
+    DB_SSL      = "true"
     PORT        = "80"
-  }
+}
 }
 
 resource "azurerm_postgresql_flexible_server" "db" {
