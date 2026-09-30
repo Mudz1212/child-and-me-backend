@@ -82,8 +82,20 @@ pipeline {
                         input message: 'Apply this plan?', ok: 'Apply'
                     }
                 }
-                dir('terraform/infrastructure') {
-                    sh 'terraform apply -auto-approve tfplan'
+                withCredentials([
+                    string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
+                    string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
+                ]) {
+                    dir('terraform/infrastructure') {
+                        sh '''
+                            cat > secrets.auto.tfvars << EOF
+jwt_secret  = "$JWT_SECRET"
+db_password = "$DB_PASSWORD"
+EOF
+                            terraform apply -auto-approve tfplan
+                            rm -f secrets.auto.tfvars
+                        '''
+                    }
                 }
             }
         }
