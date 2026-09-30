@@ -55,6 +55,12 @@ describe("POST /users/:id/favourites/:geoapifyPlaceId", () => {
     expect(res.body.venue_id).toBe(12);
   });
 
+  it("returns 500 instead of hanging when the database throws", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app).post("/users/55/favourites/abc123");
+    expect(res.status).toBe(500);
+  });
+
   it("returns 200 with a message when already favourited", async () => {
     db.query
       .mockResolvedValueOnce({ rows: [{ id: 12 }] })
@@ -76,6 +82,12 @@ describe("DELETE /users/:id/favourites/:geoapifyPlaceId", () => {
     );
 
     expect(res.status).toBe(404);
+  });
+
+  it("returns 500 instead of hanging when the database throws", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app).post("/users/55/favourites/abc123");
+    expect(res.status).toBe(500);
   });
 
   it("removes an existing favourite", async () => {

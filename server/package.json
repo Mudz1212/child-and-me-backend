@@ -29,9 +29,9 @@
       "./__tests__/unit_testing/controller/setup.js"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "setup.js",
-      "\\.int\\.test\\.js$"
+      "<rootDir>/node_modules/",
+      "<rootDir>/__tests__/integration_testing/",
+      "<rootDir>/__tests__/unit_testing/controller/setup.js"
     ]
   }
 }

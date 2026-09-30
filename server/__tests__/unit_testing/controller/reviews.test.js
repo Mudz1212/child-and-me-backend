@@ -46,6 +46,28 @@ describe("GET /venues/:geoapifyPlaceId/reviews", () => {
   });
 });
 
+describe("GET /users/:id/reviews", () => {
+  it("rejects a non-numeric id", async () => {
+    const res = await request(app).get("/users/abc/reviews");
+    expect(res.status).toBe(400);
+  });
+
+  it("returns the reviews a user has written", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 1, user_id: 4, rating: 5, comment: "Lovely" }],
+    });
+    const res = await request(app).get("/users/4/reviews");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+  });
+
+  it("returns 500 instead of hanging when the database throws", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app).get("/users/4/reviews");
+    expect(res.status).toBe(500);
+  });
+});
+
 describe("POST /venues/:geoapifyPlaceId/reviews", () => {
   it("rejects a request with no auth token", async () => {
     const res = await request(app)

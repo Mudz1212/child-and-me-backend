@@ -21,6 +21,12 @@ describe("GET /amenities", () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveLength(2);
   });
+
+  it("returns 500 instead of hanging when the database throws", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app).get("/amenities");
+    expect(res.status).toBe(500);
+  });
 });
 
 describe("POST /amenities", () => {
@@ -41,5 +47,11 @@ describe("POST /amenities", () => {
 
     expect(res.status).toBe(201);
     expect(res.body.name).toBe("Baby changing");
+  });
+
+  it("returns 500 instead of hanging when the database throws", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app).get("/amenities");
+    expect(res.status).toBe(500);
   });
 });

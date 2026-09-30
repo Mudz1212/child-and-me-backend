@@ -20,6 +20,22 @@ describe("POST /auth/register", () => {
     expect(res.body.email).toBe("test@example.com");
   });
 
+  it("returns 409 when the email is already taken", async () => {
+    db.query.mockRejectedValueOnce({ code: "23505" });
+    const res = await request(app)
+      .post("/auth/register")
+      .send({ email: "dupe@example.com", password: "password123" });
+    expect(res.status).toBe(409);
+  });
+
+  it("returns 500 instead of hanging on an unexpected database error", async () => {
+    db.query.mockRejectedValueOnce(new Error("connection lost"));
+    const res = await request(app)
+      .post("/auth/register")
+      .send({ email: "x@example.com", password: "password123" });
+    expect(res.status).toBe(500);
+  });
+
   it("rejects a missing password", async () => {
     const res = await request(app)
       .post("/auth/register")

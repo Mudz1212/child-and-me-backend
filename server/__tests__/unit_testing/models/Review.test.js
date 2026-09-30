@@ -60,4 +60,24 @@ describe("Review", () => {
       );
     });
   });
+
+  describe("findByUser", () => {
+    it("resolves with the reviews a user has written", async () => {
+      const reviews = [{ id: 1, user_id: 4, rating: 5, comment: "Lovely" }];
+      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: reviews });
+
+      const result = await Review.findByUser(4);
+
+      expect(result).toEqual(reviews);
+      expect(db.query).toHaveBeenCalledWith(expect.any(String), [4]);
+    });
+
+    it("resolves with an empty array when the user has no reviews", async () => {
+      jest.spyOn(db, "query").mockResolvedValueOnce({ rows: [] });
+
+      const result = await Review.findByUser(4);
+
+      expect(result).toEqual([]);
+    });
+  });
 });
