@@ -79,16 +79,16 @@ describe("Favourite", () => {
   });
 
   describe("findByUser", () => {
-    it("resolves with the user's favourited venues, including amenities", async () => {
+    it("resolves with the user's favourited venues, including amenity names", async () => {
       const venues = [
-        { id: 12, name: "Costa", amenities: [{ id: 1, name: "Parking" }] },
+        { id: 12, name: "Costa", amenities: ["Parking", "High chairs"] },
       ];
       jest.spyOn(db, "query").mockResolvedValueOnce({ rows: venues });
 
       const result = await Favourite.findByUser(55);
 
       expect(result).toEqual(venues);
-      expect(result[0].amenities).toHaveLength(1);
+      expect(result[0].amenities).toEqual(["Parking", "High chairs"]);
     });
 
     it("resolves with an empty array when the user has no favourites", async () => {
