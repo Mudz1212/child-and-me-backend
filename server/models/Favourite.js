@@ -39,9 +39,7 @@ class Favourite {
       `SELECT
         v.*,
         COALESCE(
-          json_agg(
-            json_build_object('id', a.id, 'name', a.name)
-          ) FILTER (WHERE a.id IS NOT NULL),
+          json_agg(a.name) FILTER (WHERE a.name IS NOT NULL),
           '[]'
         ) AS amenities
        FROM user_favourites uf
