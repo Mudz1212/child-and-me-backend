@@ -96,6 +96,10 @@ describe("POST /venues/:geoapifyPlaceId/reviews", () => {
   });
 
   it("rejects a rating above 5", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 5, geoapify_place_id: placeId }],
+    });
+
     const res = await request(app)
       .post(`/venues/${placeId}/reviews`)
       .set("Authorization", `Bearer ${token}`)
@@ -105,6 +109,10 @@ describe("POST /venues/:geoapifyPlaceId/reviews", () => {
   });
 
   it("rejects a non-numeric rating", async () => {
+    db.query.mockResolvedValueOnce({
+      rows: [{ id: 5, geoapify_place_id: placeId }],
+    });
+
     const res = await request(app)
       .post(`/venues/${placeId}/reviews`)
       .set("Authorization", `Bearer ${token}`)
