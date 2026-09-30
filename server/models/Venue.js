@@ -59,7 +59,7 @@ class Venue {
       GROUP BY v.id
       LIMIT 1
       `,
-      [ownerId]
+      [ownerId],
     );
 
     return result.rows[0];

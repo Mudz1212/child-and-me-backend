@@ -4,7 +4,7 @@ class Review {
   static async findByVenue(venueId) {
     const result = await db.query(
       "SELECT * FROM reviews WHERE venue_id = $1 ORDER BY created_at DESC",
-      [venueId]
+      [venueId],
     );
     return result.rows;
   }
@@ -13,9 +13,17 @@ class Review {
     const result = await db.query(
       `INSERT INTO reviews (venue_id, user_id, rating, comment)
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [venueId, userId, rating, comment]
+      [venueId, userId, rating, comment],
     );
     return result.rows[0];
+  }
+
+  static async findByUser(userId) {
+    const result = await db.query(
+      "SELECT * FROM reviews WHERE user_id = $1 ORDER BY created_at DESC",
+      [userId],
+    );
+    return result.rows;
   }
 }
 

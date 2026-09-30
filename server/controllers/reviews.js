@@ -32,4 +32,17 @@ async function create(req, res) {
   }
 }
 
-module.exports = { index, create };
+async function indexByUser(req, res) {
+  const userId = Number.parseInt(req.params.id, 10);
+  if (!Number.isInteger(userId)) {
+    return res.status(400).json({ error: "Invalid user id" });
+  }
+
+  try {
+    res.json(await Review.findByUser(userId));
+  } catch (err) {
+    console.error("Failed to fetch user's reviews:", err);
+    res.status(500).json({ error: "Failed to fetch reviews" });
+  }
+}
+module.exports = { index, create, indexByUser };

@@ -103,6 +103,11 @@ app.get("/", (req, res) => {
         path: "/users/:id/favourites/:geoapifyPlaceId",
         description: "Unfavourite a venue by its geoapify_place_id",
       },
+      {
+        method: "GET",
+        path: "/users/:id/reviews",
+        description: "List a user's reviews",
+      },
     ],
   });
 });
