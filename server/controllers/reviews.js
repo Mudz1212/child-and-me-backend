@@ -19,10 +19,17 @@ async function create(req, res) {
     if (!venue) return res.status(404).json({ error: "Venue not found" });
 
     const { rating, comment } = req.body;
+    const numericRating = Number(rating);
+    if (Number.isNaN(numericRating) || numericRating < 1 || numericRating > 5) {
+      return res
+        .status(400)
+        .json({ error: "rating must be a number between 1 and 5" });
+    }
+
     const review = await Review.create({
       venueId: venue.id,
       userId: req.user.id,
-      rating,
+      rating: numericRating,
       comment,
     });
     res.status(201).json(review);
@@ -45,4 +52,23 @@ async function indexByUser(req, res) {
     res.status(500).json({ error: "Failed to fetch reviews" });
   }
 }
-module.exports = { index, create, indexByUser };
+
+async function deleteReview(req, res) {
+  const reviewId = Number.parseInt(req.params.reviewId, 10);
+  if (!Number.isInteger(reviewId)) {
+    return res.status(400).json({ error: "Invalid review id" });
+  }
+
+  try {
+    const review = await Review.delete(reviewId, req.user.id);
+    if (!review) {
+      return res.status(404).json({ error: "Review not found or not yours" });
+    }
+    res.json({ message: "Review deleted" });
+  } catch (err) {
+    console.error("Failed to delete review:", err);
+    res.status(500).json({ error: "Failed to delete review" });
+  }
+}
+
+module.exports = { index, create, indexByUser, deleteReview };

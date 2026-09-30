@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
   res.json({
     name: "Baby & Me API",
     endpoints: [
+      // Venues
       {
         method: "GET",
         path: "/venues",
@@ -38,6 +39,8 @@ app.get("/", (req, res) => {
         path: "/venues/:id",
         description: "Update your own venue (auth required)",
       },
+
+      // Reviews (nested under a venue, looked up by geoapify_place_id)
       {
         method: "GET",
         path: "/venues/:geoapifyPlaceId/reviews",
@@ -48,6 +51,13 @@ app.get("/", (req, res) => {
         path: "/venues/:geoapifyPlaceId/reviews",
         description: "Add a review (auth required)",
       },
+      {
+        method: "DELETE",
+        path: "/venues/:geoapifyPlaceId/reviews/:reviewId",
+        description: "Delete your own review (auth required)",
+      },
+
+      // Amenities
       {
         method: "GET",
         path: "/amenities",
@@ -63,6 +73,8 @@ app.get("/", (req, res) => {
         path: "/venue-amenities",
         description: "Link an amenity to a venue",
       },
+
+      // Auth
       {
         method: "POST",
         path: "/auth/register",
@@ -73,6 +85,8 @@ app.get("/", (req, res) => {
         path: "/auth/login",
         description: "Log in, returns a JWT",
       },
+
+      // Users
       {
         method: "GET",
         path: "/users/:id",
